@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="color-scheme" content="only light">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SayERP – Student Portal</title>
+<style>
+:root{--bg:#f4f1ff;--card:#fff;--tx:#1b1740;--mu:#6b6890;--p:#6d3cf5;--p2:#22d3ee;--ok:#16a34a;--wr:#f59e0b;--bd:#e8e4ff;--sh:0 10px 30px rgba(80,50,200,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#0f0d24;--card:#1a1740;--tx:#efeeff;--mu:#a19fc9;--bd:#2b2761;--sh:0 10px 30px rgba(0,0,0,.4)}
+html{color-scheme:only light}html[data-theme="dark"]{color-scheme:dark}
+*{box-sizing:border-box;margin:0}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--tx);font-family:'Segoe UI',system-ui,Arial,sans-serif;min-height:100vh}
+button{font:inherit;cursor:pointer;border:0}
+#login{position:fixed;inset:0;z-index:9;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4c1d95,#6d3cf5,#0891b2);background-size:300% 300%;animation:bg 10s ease infinite;overflow:hidden}
+@keyframes bg{50%{background-position:100% 100%}}
+.orb{position:absolute;border-radius:50%;background:rgba(255,255,255,.13);animation:fl 9s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-40px) scale(1.1)}}
+.lbox{position:relative;width:min(380px,92%);background:rgba(255,255,255,.95);color:#1b1740;padding:34px 28px;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.35);animation:up .8s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes up{from{opacity:0;transform:translateY(50px) scale(.9)}}
+.logo{font-size:28px;font-weight:800;background:linear-gradient(90deg,#6d3cf5,#0891b2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lbox p{color:#6b6890;font-size:13px;margin:4px 0 18px}
+input{width:100%;padding:12px 14px;margin:6px 0;border:1.5px solid #e8e4ff;border-radius:12px;font:inherit;outline:0;transition:.2s}
+input:focus{border-color:#6d3cf5;box-shadow:0 0 0 4px rgba(109,60,245,.15)}
+.btn{width:100%;margin-top:12px;padding:13px;border-radius:12px;color:#fff;font-weight:700;background:linear-gradient(90deg,#6d3cf5,#22a6d3);transition:.25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(109,60,245,.4)}
+.tabs{display:flex;background:#f1eeff;border-radius:12px;padding:4px;margin-bottom:12px}
+.tabs button{flex:1;padding:9px;border-radius:9px;background:transparent;color:#6b6890;font-weight:700;transition:.3s}
+.tabs button.on{background:#fff;color:#6d3cf5;box-shadow:0 3px 10px rgba(109,60,245,.2)}
+.vw{display:none;animation:in .4s ease}.vw.on{display:block}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-top:6px;color:#6b6890}
+.row a,.lk{color:#6d3cf5;font-weight:600;cursor:pointer;text-decoration:none}
+.pwb{position:relative}.pwb span{position:absolute;right:12px;top:15px;cursor:pointer;font-size:14px;user-select:none}
+.ok{color:#16a34a;font-size:12px;min-height:16px;margin-top:6px}
+#err{color:#dc2626;font-size:12px;min-height:16px;margin-top:6px}
+#app{display:none}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:8px;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--bd);box-shadow:var(--sh);flex-wrap:wrap}
+header .logo{font-size:20px;margin-right:auto}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav button{padding:8px 14px;border-radius:10px;background:transparent;color:var(--mu);font-weight:600;font-size:13px;transition:.25s}
+nav button:hover{background:var(--bd)}nav button.on{background:linear-gradient(90deg,#6d3cf5,#22a6d3);color:#fff}
+.av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6d3cf5,#22d3ee);color:#fff;display:grid;place-items:center;font-weight:700}
+main{max-width:1100px;margin:0 auto;padding:24px 18px 60px}
+.pg{display:none;animation:in .5s ease}.pg.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(20px)}}
+h2{font-size:22px;margin:4px 0 14px}
+.hero{padding:28px;border-radius:22px;color:#fff;background:linear-gradient(120deg,#6d3cf5,#22a6d3);position:relative;overflow:hidden;box-shadow:var(--sh)}
+.hero:after{content:"🎓";position:absolute;right:24px;top:6px;font-size:90px;opacity:.25;animation:fl 5s ease-in-out infinite}
+.hero h1{font-size:26px}.hero p{opacity:.9;margin-top:6px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:18px 0}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px;box-shadow:var(--sh);transition:.3s;animation:in .6s both}
+.card:hover{transform:translateY(-6px)}
+.stat b{font-size:30px;display:block}.stat span{color:var(--mu);font-size:13px}
+.two{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--bd)}th{color:var(--mu);font-size:12px;text-transform:uppercase}
+.tag{padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.g{background:#dcfce7;color:#15803d}.y{background:#fef3c7;color:#b45309}.r{background:#fee2e2;color:#b91c1c}
+.bar{height:9px;background:var(--bd);border-radius:9px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,#6d3cf5,#22d3ee);transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.ring{width:130px;height:130px;margin:auto;display:block}
+.ring circle{fill:none;stroke-width:12;stroke-linecap:round}
+.ring .bg{stroke:var(--bd)}.ring .fg{stroke:url(#gr);stroke-dasharray:339;stroke-dashoffset:339;transition:stroke-dashoffset 1.6s ease;transform:rotate(-90deg);transform-origin:center}
+.tt{display:grid;grid-template-columns:70px repeat(5,1fr);gap:6px;font-size:12px;overflow-x:auto;min-width:640px}
+.tt div{padding:10px 6px;border-radius:10px;background:var(--bd);text-align:center}
+.tt .h{background:linear-gradient(90deg,#6d3cf5,#22a6d3);color:#fff;font-weight:700}
+.tt .x{background:rgba(109,60,245,.13);font-weight:600}
+.scroll{overflow-x:auto}
+.note{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}.note:last-child{border:0}
+.ping{width:10px;height:10px;border-radius:50%;background:#ef4444;margin-top:6px;flex:none;animation:pg 1.6s infinite}
+@keyframes pg{0%{box-shadow:0 0 0 0 rgba(239,68,68,.6)}100%{box-shadow:0 0 0 10px transparent}}
+.pay{padding:8px 16px;border-radius:10px;background:var(--p);color:#fff;font-weight:600}
+@media(max-width:640px){header{padding:10px 12px}}
+</style></head><body>
+<section id="login">
+<div class="orb" style="width:260px;height:260px;left:-60px;top:-60px"></div><div class="orb" style="width:180px;height:180px;right:8%;bottom:10%;animation-delay:2s"></div><div class="orb" style="width:90px;height:90px;left:20%;bottom:15%;animation-delay:4s"></div>
+<div class="lbox"><div class="logo">🎓 SayERP</div><p>Smart College Management for Students</p>
+<div class="tabs"><button id="t1" class="on" onclick="view('in')">Sign In</button><button id="t2" onclick="view('up')">Sign Up</button></div>
+<div class="vw on" id="v-in"><input id="u" placeholder="Email" autocomplete="username"><div class="pwb"><input id="pw" type="password" placeholder="Password" autocomplete="current-password"><span onclick="eye('pw',this)">👁</span></div>
+<div class="row"><label><input type="checkbox" id="rm" style="width:auto;margin:0 5px 0 0">Remember me</label><a onclick="view('fp')">Forgot password?</a></div>
+<div id="err"></div><button class="btn" onclick="login()">Sign In</button>
+<p style="text-align:center;margin:14px 0 0;font-size:12px">New student? <span class="lk" onclick="view('up')">Create Account</span></p></div>
+<div class="vw" id="v-up"><input id="sn" placeholder="Full Name"><input id="se" placeholder="College Email"><input id="sr" placeholder="Roll Number"><div class="pwb"><input id="sp" type="password" placeholder="Password (min 6 characters)"><span onclick="eye('sp',this)">👁</span></div><input id="sc" type="password" placeholder="Confirm Password">
+<div id="serr" style="color:#dc2626;font-size:12px;min-height:16px;margin-top:6px"></div><button class="btn" onclick="signup()">Create Student Account</button>
+<p style="text-align:center;margin:14px 0 0;font-size:12px">Already registered? <span class="lk" onclick="view('in')">Sign In</span></p></div>
+<div class="vw" id="v-fp"><h3 style="margin-bottom:6px">Forgot Password?</h3><p style="margin:0 0 10px">Enter your registered email and we will send a reset link.</p><input id="fe" placeholder="Registered Email"><div id="fmsg" class="ok"></div><button class="btn" onclick="forgot()">Send Reset Link</button>
+<p style="text-align:center;margin:14px 0 0;font-size:12px"><span class="lk" onclick="view('in')">← Back to Sign In</span></p></div>
+<p style="text-align:center;margin:14px 0 0;font-size:11px">Demo: sayali.pawar@college.edu / student123</p></div></section>
+
+<div id="app">
+<header><div class="logo">🎓 SayERP</div>
+<nav id="nav"></nav><button class="pay" id="th" onclick="th()" style="background:#22a6d3">🌙</button><div class="av" id="av">SP</div><button class="pay" onclick="location.reload()">Logout</button></header>
+<main>
+<div class="pg on" id="dashboard">
+<div class="hero"><h1 id="wn">Welcome back! 👋</h1><p id="wp"></p></div>
+<div class="grid" id="stats"></div>
+<div class="two"><div class="card"><h2>Overall Attendance</h2><svg class="ring" viewBox="0 0 120 120"><defs><linearGradient id="gr"><stop offset="0" stop-color="#6d3cf5"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><circle class="bg" cx="60" cy="60" r="54"/><circle class="fg" id="rg" cx="60" cy="60" r="54"/><text x="60" y="66" text-anchor="middle" font-size="22" font-weight="700" fill="currentColor" id="rt">0%</text></svg></div>
+<div class="card"><h2>Notice Board</h2><div id="notices"></div></div></div></div>
+
+<div class="pg" id="attendance"><h2>Attendance</h2><div class="card" id="att"></div></div>
+<div class="pg" id="timetable"><h2>Weekly Timetable</h2><div class="card scroll"><div class="tt" id="tt"></div></div></div>
+<div class="pg" id="marks"><h2>Marks &amp; Results</h2><div class="card scroll"><table id="mk"></table></div></div>
+<div class="pg" id="assign"><h2>Assignments</h2><div class="card scroll"><table id="as"></table></div></div>
+<div class="pg" id="fees"><h2>Fee Payment</h2><div class="grid" id="fs"></div><div class="card scroll"><table id="ft"></table></div></div>
+<div class="pg" id="profile"><h2>My Profile</h2><div class="card"><table id="pf"></table></div></div>
+</main></div>
+
+<script>
+const S=[["Data Structures",88,42,50,"Prof. Kulkarni"],["Database Management",92,44,50,"Prof. Joshi"],["Operating Systems",74,38,50,"Prof. Deshmukh"],["Computer Networks",81,40,50,"Prof. Patil"],["Software Engineering",95,46,50,"Prof. Shinde"]];
+const pages=[["dashboard","🏠 Dashboard"],["attendance","📅 Attendance"],["timetable","🕒 Timetable"],["marks","📊 Marks"],["assign","📝 Assignments"],["fees","💳 Fees"],["profile","👤 Profile"]];
+const $=id=>document.getElementById(id);
+const users={'sayali.pawar@college.edu':{n:'Sayali Pawar',p:'student123',r:'CE2023-041'}};let ME;
+function th(){const r=document.documentElement,d=r.dataset.theme==='dark';r.dataset.theme=d?'light':'dark';$('th').textContent=d?'🌙':'☀️'}
+function view(v){['in','up','fp'].forEach(x=>$('v-'+x).classList.toggle('on',x===v));$('t1').classList.toggle('on',v!=='up');$('t2').classList.toggle('on',v==='up');$('err').textContent='';$('serr').textContent='';$('fmsg').textContent=''}
+function eye(id,el){const i=$(id);i.type=i.type==='password'?'text':'password';el.textContent=i.type==='password'?'👁':'🙈'}
+function login(){const e=$('u').value.trim().toLowerCase(),p=$('pw').value,x=users[e];if(!e||!p){$('err').textContent='Please enter email and password.';return}
+if(x&&x.p===p){ME={...x,e};$('login').style.transition='.6s';$('login').style.opacity=0;setTimeout(()=>{$('login').style.display='none';$('app').style.display='block';init()},500)}else{$('err').textContent='Invalid email or password.'}}
+function signup(){const n=$('sn').value.trim(),e=$('se').value.trim().toLowerCase(),r=$('sr').value.trim(),p=$('sp').value,c=$('sc').value,E=$('serr');
+if(!n||!e||!r||!p){E.textContent='Please fill all fields.';return}if(!/^\S+@\S+\.\S+$/.test(e)){E.textContent='Enter a valid email.';return}
+if(p.length<6){E.textContent='Password must be at least 6 characters.';return}if(p!==c){E.textContent='Passwords do not match.';return}
+if(users[e]){E.textContent='This email is already registered.';return}
+users[e]={n,p,r};view('in');$('u').value=e;$('pw').value='';$('err').style.color='#16a34a';$('err').textContent='Account created! Please sign in.';setTimeout(()=>$('err').style.color='',3000)}
+function forgot(){const e=$('fe').value.trim().toLowerCase(),M=$('fmsg');if(!e){M.style.color='#dc2626';M.textContent='Please enter your email.';return}
+M.style.color=users[e]?'#16a34a':'#dc2626';M.textContent=users[e]?'Reset link sent to '+e:'No account found with this email.'}
+document.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&$('login').style.display!=='none'&&$('v-in').classList.contains('on'))login()});
+function go(id){document.querySelectorAll('.pg').forEach(x=>x.classList.toggle('on',x.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===id));if(id==='attendance')setTimeout(bars,50)}
+function bars(){document.querySelectorAll('.bar i').forEach(i=>i.style.width=i.dataset.w+'%')}
+function count(el,to,suf=''){let n=0;const t=setInterval(()=>{n+=Math.max(1,to/40);if(n>=to){n=to;clearInterval(t)}el.textContent=Math.round(n)+suf},30)}
+function init(){
+$('wn').textContent='Welcome back, '+ME.n+'! 👋';$('wp').textContent='B.Tech Computer Engineering · Semester V · Roll No. '+ME.r;$('av').textContent=ME.n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+$('nav').innerHTML=pages.map(p=>`<button data-p="${p[0]}" onclick="go('${p[0]}')">${p[1]}</button>`).join('');go('dashboard');
+const avg=Math.round(S.reduce((a,s)=>a+s[1],0)/S.length);
+const st=[["CGPA",8.7,"🏆"],["Attendance",avg,"📈"],["Courses",5,"📚"],["Pending Tasks",3,"⏳"]];
+$('stats').innerHTML=st.map((s,i)=>`<div class="card stat" style="animation-delay:${i*.12}s">${s[2]}<b data-to="${s[1]}">0</b><span>${s[0]}</span></div>`).join('');
+document.querySelectorAll('.stat b').forEach((b,i)=>i==0?b.textContent=8.7:count(b,+b.dataset.to,i==1?'%':''));
+setTimeout(()=>{$('rg').style.strokeDashoffset=339*(1-avg/100);let n=0;const t=setInterval(()=>{n++;$('rt').textContent=n+'%';if(n>=avg)clearInterval(t)},18)},300);
+$('notices').innerHTML=[["Mid-term exam timetable released","Today"],["Fee due date: 15 October 2026","2 days ago"],["Tech Fest registrations open","Last week"]].map(n=>`<div class="note"><span class="ping"></span><div><b>${n[0]}</b><br><small style="color:var(--mu)">${n[1]}</small></div></div>`).join('');
+$('att').innerHTML=S.map(s=>`<div style="margin-bottom:16px"><b>${s[0]}</b> <span class="tag ${s[1]>=85?'g':s[1]>=75?'y':'r'}" style="float:right">${s[1]}%</span><div class="bar"><i data-w="${s[1]}"></i></div></div>`).join('');
+const D=["Mon","Tue","Wed","Thu","Fri"],T=["9:00","10:00","11:15","12:15","2:00"];
+let h='<div class="h">Time</div>'+D.map(d=>`<div class="h">${d}</div>`).join('');
+T.forEach((t,r)=>{h+=`<div class="h">${t}</div>`;D.forEach((d,c)=>h+=`<div class="x">${S[(r+c)%5][0].split(' ')[0]}</div>`)});$('tt').innerHTML=h;
+$('mk').innerHTML='<tr><th>Subject</th><th>Faculty</th><th>Marks</th><th>Grade</th></tr>'+S.map(s=>`<tr><td>${s[0]}</td><td>${s[4]}</td><td>${s[2]}/${s[3]}</td><td><span class="tag ${s[2]>=40?'g':'y'}">${s[2]>=44?'A+':s[2]>=40?'A':'B+'}</span></td></tr>`).join('');
+const A=[["ER Diagram – College DB","Database Management","05 Oct 2026","Pending"],["Process Scheduling Report","Operating Systems","08 Oct 2026","Pending"],["SRS Document","Software Engineering","12 Oct 2026","Pending"],["Linked List Programs","Data Structures","28 Sep 2026","Submitted"]];
+$('as').innerHTML='<tr><th>Title</th><th>Subject</th><th>Due</th><th>Status</th></tr>'+A.map(a=>`<tr><td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}</td><td><span class="tag ${a[3]=='Submitted'?'g':'y'}">${a[3]}</span></td></tr>`).join('');
+$('fs').innerHTML=[["Total Fee","₹85,000"],["Paid","₹60,000"],["Due","₹25,000"]].map(f=>`<div class="card stat"><b>${f[1]}</b><span>${f[0]}</span></div>`).join('');
+$('ft').innerHTML='<tr><th>Receipt</th><th>Date</th><th>Amount</th><th>Status</th></tr><tr><td>RC-2026-114</td><td>10 Jul 2026</td><td>₹40,000</td><td><span class="tag g">Paid</span></td></tr><tr><td>RC-2026-233</td><td>02 Sep 2026</td><td>₹20,000</td><td><span class="tag g">Paid</span></td></tr><tr><td>RC-2026-310</td><td>15 Oct 2026</td><td>₹25,000</td><td><span class="tag y">Due</span></td></tr>';
+$('pf').innerHTML=[["Name",ME.n],["Roll No.",ME.r],["Department","Computer Engineering"],["Semester","V"],["Email",ME.e]].map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join('');
+}
+</script></body></html>
