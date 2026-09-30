@@ -3,20 +3,22 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/YOUR-USERNAME/sayerp.git'
+                git branch: 'main', url: 'https://github.com/pawarsayali79841-source/SayERP.git'
                 echo 'Checked out code successfully!'
             }
         }
         stage('Build') {
             steps {
-                sh 'node --version'
-                sh 'npm install'
-                sh 'npm test'
+                bat 'node --version'
+                bat 'npm install'
+                bat 'npm test'
             }
         }
         stage('Deploy') {
             steps {
-                sh 'BUILD_ID=dontKillMe JENKINS_NODE_COOKIE=dontKillMe nohup node server.js > sayerp.log 2>&1 &'
+                withEnv(['JENKINS_NODE_COOKIE=dontKillMe', 'BUILD_ID=dontKillMe']) {
+                    bat 'start "" /B cmd /c "node server.js > sayerp.log 2>&1"'
+                }
                 echo 'SayERP deployed successfully at http://localhost:3000'
             }
         }
